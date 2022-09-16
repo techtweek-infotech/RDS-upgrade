@@ -1,0 +1,39 @@
+Step by step guide to perform an upgrade to MySQL RDS instance from 5.6 to 5.7 
+
+Why Upgrade is required: - The RDS for MySQL 5.6 end-of-life date is approaching. our database is using a version that must be upgraded to 5.7 or higher as soon as possible. AWS will plan to automatically upgrade RDS for MySQL 5.6 databases to 5.7 starting August 3, 2021.
+Environment -Paykickstart Production
+Area Effected-Transaction DB
+Downtime involved-15 to 25 min
+
+In the console, choose Database, and then choose the Paykickstart DB instance to upgrade.
+Form Actions, choose Create read replica.
+Provide a value for DB instance identifier for your read replica and ensure that the DB instance class and other settings match your MySQL 5.6 DB instance.
+Choose Create read replica
+ When the read replica has been created and Status shows Available, convert the read replica into a multi-AZ deployment and enable backups.
+When the read replica Status shows Available, upgrade the read replica to MySQL 5.7
+In the console, choose Databases, and then choose the read replica that you just created.
+Choose Modify.
+For DB engine version, choose the MySQL 5.7 version to upgrade to, and then choose Continue.
+For Scheduling of modifications, choose Apply immediately.
+Choose Modify DB instance to start the upgrade
+After Upgrade make your Read replica Multi AZ
+After Above step check for lags from console if any 
+In the console, choose Databases, and then choose the read replica that you just upgraded.
+For Actions, choose Promote.
+Choose Yes to enable automated backups for the read replica instance. For more information,
+Choose Continue.
+Choose Promote Read Replica.
+After 15 to 25 min, it will be upgraded to 5.7
+Enable internal DNS in Route 53 and VPC settings (Screenshot attached)
+ 
+
+
+.Now we need to enable DNS resolution
+
+
+Enable DNS hostnames
+
+
+
+
+Developers need to add endpoint as rds.paykickstart.local in application
